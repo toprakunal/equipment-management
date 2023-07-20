@@ -1,4 +1,4 @@
-package edu.tcu.cs.hogwartsartifactsonline.system;
+package com.example.equipmentmanagement.system;
 
 /**
  * This class defines the schema of the response. It is used to encapsulate data prepared by

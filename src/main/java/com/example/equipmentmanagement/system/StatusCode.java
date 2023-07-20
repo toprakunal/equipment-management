@@ -1,4 +1,4 @@
-package edu.tcu.cs.hogwartsartifactsonline.system;
+package com.example.equipmentmanagement.system;
 
 public class StatusCode {
 
