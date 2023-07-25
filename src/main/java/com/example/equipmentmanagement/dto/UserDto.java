@@ -8,7 +8,6 @@ public record UserDto(@NotNull
                       String userName,
                       @NotNull
                       String email,
-                      String status,
-                      @NotNull
-                      String password) {
+                      String status
+                     ) {
 }

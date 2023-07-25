@@ -116,7 +116,7 @@ class UserControllerTest {
     @Test
     void testCreateUserSuccess() throws Exception {
 
-        UserDto userDto = new UserDto(4,"mockUser4","mockuser4@hotmail.com","Active","mock_password4");
+        UserDto userDto = new UserDto(4,"mockUser4","mockuser4@hotmail.com","Active");
 
         String json = objectMapper.writeValueAsString(userDto);
 
@@ -139,7 +139,7 @@ class UserControllerTest {
 
     @Test
     void testUpdateUserSuccess() throws Exception {
-        UserDto userDto = new UserDto(1,"second","testemail",null,"testpassword");
+        UserDto userDto = new UserDto(1,"second","testemail",null);
         String json = objectMapper.writeValueAsString(userDto);
 
         User updatedUser = new User();
@@ -163,7 +163,7 @@ class UserControllerTest {
 
     @Test
     void testUpdateUserErrorWithNonExistedId () throws Exception {
-        UserDto userDto = new UserDto(4,"mockUser4","mockuser4@hotmail.com","Active","mock_password4");
+        UserDto userDto = new UserDto(4,"mockUser4","mockuser4@hotmail.com","Active");
 
         String json = objectMapper.writeValueAsString(userDto);
 
