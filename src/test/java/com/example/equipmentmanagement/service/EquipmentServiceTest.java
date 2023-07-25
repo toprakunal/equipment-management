@@ -35,6 +35,8 @@ class EquipmentServiceTest {
 
     List<Equipment> equipmentList;
 
+
+
     @BeforeEach
     void setUp() {
 
@@ -148,7 +150,7 @@ class EquipmentServiceTest {
     }
 
     @Test
-    void testAddEquipmentSucccess(){
+    void testAddEquipmentSuccess(){
         //Given
 
         Equipment newEquipment = new Equipment();

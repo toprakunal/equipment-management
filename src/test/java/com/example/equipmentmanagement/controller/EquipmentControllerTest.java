@@ -46,6 +46,8 @@ class EquipmentControllerTest {
 
     List<Equipment> equipmentList;
 
+    String baseUrl = "/api/v1";
+
     @BeforeEach
     void setUp() {
 
@@ -110,7 +112,7 @@ class EquipmentControllerTest {
                 .willReturn(this.equipmentList.get(0));
 
         //When
-        this.mockMvc.perform(get("http://localhost:8080/api/v1/equipments/1-C0200-FA17-34240070007-001-56").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get(baseUrl+"/equipments/1-C0200-FA17-34240070007-001-56").accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value("Find One Success"));
@@ -127,7 +129,7 @@ class EquipmentControllerTest {
                 .willThrow(new EquipmentNotFoundException("1-C0200-FA17-34240070007-001-56"));
 
         //When
-        this.mockMvc.perform(get("http://localhost:8080/api/v1/equipments/1-C0200-FA17-34240070007-001-56").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get(baseUrl+"/equipments/1-C0200-FA17-34240070007-001-56").accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(false))
                 .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
                 .andExpect(jsonPath("$.message").value("Could not found equipment with serial no: 1-C0200-FA17-34240070007-001-56"))
@@ -140,7 +142,7 @@ class EquipmentControllerTest {
         given(this.equipmentService.findAllEquipment()).willReturn(this.equipmentList);
 
         //When
-        this.mockMvc.perform(get("/api/v1/equipments").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get(baseUrl+"/equipments").accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value("Find All Success"))
@@ -176,7 +178,7 @@ class EquipmentControllerTest {
         given(this.equipmentService.addEquipment(Mockito.any(Equipment.class))).willReturn(newEquipment);
 
         //When and Then
-        this.mockMvc.perform(post("/api/v1/equipments").contentType(MediaType.APPLICATION_JSON).content(json).accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(post(baseUrl+"/equipments").contentType(MediaType.APPLICATION_JSON).content(json).accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value("Add Success"))
@@ -213,7 +215,7 @@ class EquipmentControllerTest {
         given(this.equipmentService.updateEquipment(eq("1-C0200-FA17-66400310001-001-56"),Mockito.any(Equipment.class))).willReturn(updatedEquipment);
 
         //When and Then
-        this.mockMvc.perform(put("/api/v1/equipments/1-C0200-FA17-66400310001-001-56").contentType(MediaType.APPLICATION_JSON).content(json).accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(put(baseUrl+"/equipments/1-C0200-FA17-66400310001-001-56").contentType(MediaType.APPLICATION_JSON).content(json).accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value("Update Success"))
@@ -243,7 +245,7 @@ class EquipmentControllerTest {
         given(this.equipmentService.updateEquipment(eq("1-C0200-FA17-66400310001-001-56"),Mockito.any(Equipment.class))).willThrow(new EquipmentNotFoundException("1-C0200-FA17-66400310001-001-56"));
 
         //When and Then
-        this.mockMvc.perform(put("/api/v1/equipments/1-C0200-FA17-66400310001-001-56").contentType(MediaType.APPLICATION_JSON).content(json).accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(put(baseUrl+"/equipments/1-C0200-FA17-66400310001-001-56").contentType(MediaType.APPLICATION_JSON).content(json).accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(false))
                 .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
                 .andExpect(jsonPath("$.message").value("Could not found equipment with serial no: 1-C0200-FA17-66400310001-001-56"))
@@ -256,7 +258,7 @@ class EquipmentControllerTest {
     void testDeleteEquipmentSuccess() throws Exception {
         doNothing().when(equipmentService).deleteEquipment("1-C0200-FA17-66400310001-001-56");
 
-        this.mockMvc.perform(delete("/api/v1/equipments/1-C0200-FA17-66400310001-001-56").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(delete(baseUrl+"/equipments/1-C0200-FA17-66400310001-001-56").accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(true))
                 .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value("Delete Success"))
@@ -269,11 +271,10 @@ class EquipmentControllerTest {
         //Given
         doThrow(new EquipmentNotFoundException("1-C0200-FA17-66400310001-001-56")).when(equipmentService).deleteEquipment("1-C0200-FA17-66400310001-001-56");
 
-        this.mockMvc.perform(delete("/api/v1/equipments/1-C0200-FA17-66400310001-001-56").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(delete(baseUrl+"/equipments/1-C0200-FA17-66400310001-001-56").accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(false))
                 .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
                 .andExpect(jsonPath("$.message").value("Could not found equipment with serial no: 1-C0200-FA17-66400310001-001-56"))
                 .andExpect(jsonPath("$.data").isEmpty());
-
     }
 }

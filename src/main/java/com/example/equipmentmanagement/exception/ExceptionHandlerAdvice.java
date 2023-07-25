@@ -35,4 +35,11 @@ public class ExceptionHandlerAdvice {
         });
         return new Result(false,StatusCode.INVALID_ARGUMENT, "Provided arguments is invalid, see data for details",errors);
     }
+
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    Result handleUserNotFound(UserNotFoundException ex){
+        return new Result(false, StatusCode.NOT_FOUND, ex.getMessage());
+    }
 }
