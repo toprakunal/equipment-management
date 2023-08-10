@@ -8,6 +8,7 @@ public record UserDto(@NotNull
                       String userName,
                       @NotNull
                       String email,
-                      String status
+                      String status,
+                      String role
                      ) {
 }
