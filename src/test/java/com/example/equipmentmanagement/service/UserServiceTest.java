@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,9 @@ class UserServiceTest {
     @Mock
     UserRepository userRepository;
 
+    @Mock
+    PasswordEncoder passwordEncoder;
+
     @InjectMocks
     UserService userService;
 
@@ -41,6 +45,7 @@ class UserServiceTest {
         u1.setEmail("user1@hotmail.com");
         u1.setUserPassword("user1Password");
         u1.setStatus("active");
+        u1.setRole("admin");
         userList.add(u1);
 
         User u2 = new User();
@@ -49,6 +54,7 @@ class UserServiceTest {
         u2.setEmail("user2@hotmail.com");
         u2.setUserPassword("user2Password");
         u2.setStatus("active");
+        u2.setRole("admin");
         userList.add(u2);
 
 
@@ -58,6 +64,7 @@ class UserServiceTest {
         u3.setEmail("user3@hotmail.com");
         u3.setUserPassword("user3Password");
         u3.setStatus("active");
+        u3.setRole("admin");
         userList.add(u3);
     }
 
@@ -75,6 +82,7 @@ class UserServiceTest {
         user.setEmail("mockuser@hotmail.com");
         user.setUserPassword("mock_password");
         user.setStatus("Active");
+        user.setRole("admin");
 
         given(userRepository.findById(1)).willReturn(Optional.of(user));
 
@@ -121,7 +129,9 @@ class UserServiceTest {
         newUser.setEmail("mockuser4@hotmail.com");
         newUser.setUserPassword("mock_password4");
         newUser.setStatus("Active");
+        newUser.setRole("admin");
 
+        given(passwordEncoder.encode(newUser.getUserPassword())).willReturn("mock_password4");
         given(userRepository.save(newUser)).willReturn(newUser);
 
         User savedUser = userService.createUser(newUser);
@@ -131,6 +141,7 @@ class UserServiceTest {
         assertThat(savedUser.getUserPassword()).isEqualTo("mock_password4");
         assertThat(savedUser.getEmail()).isEqualTo("mockuser4@hotmail.com");
         assertThat(savedUser.getStatus()).isEqualTo("Active");
+        assertThat(savedUser.getRole()).isEqualTo("admin");
         verify(userRepository, times(1)).save(newUser);
 
     }
@@ -143,6 +154,7 @@ class UserServiceTest {
         oldUser.setEmail("mockuser4@hotmail.com");
         oldUser.setUserPassword("mock_password4");
         oldUser.setStatus("Active");
+        oldUser.setRole("admin");
 
         User update = new User();
         update.setUserId(4);
@@ -150,6 +162,7 @@ class UserServiceTest {
         update.setEmail("mockuser4@hotmail.com");
         update.setUserPassword("mock_password4");
         update.setStatus("Active");
+        update.setRole("admin");
 
         given(userRepository.findById(4)).willReturn(Optional.of(oldUser));
         given(userRepository.save(oldUser)).willReturn(oldUser);
@@ -172,6 +185,7 @@ class UserServiceTest {
         update.setEmail("mockuser4@hotmail.com");
         update.setUserPassword("mock_password4");
         update.setStatus("Active");
+        update.setRole("admin");
 
 
         given(userRepository.findById(4)).willReturn(Optional.empty());
@@ -191,6 +205,7 @@ class UserServiceTest {
         user.setEmail("mockuser4@hotmail.com");
         user.setUserPassword("mock_password4");
         user.setStatus("Active");
+        user.setRole("admin");
 
         given(userRepository.findById(4)).willReturn(Optional.of(user));
         doNothing().when(userRepository).deleteById(4);
